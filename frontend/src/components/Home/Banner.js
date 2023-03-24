@@ -1,8 +1,11 @@
 import React from "react";
 import logo from "../../imgs/logo.png";
+import Wrapper from 'styled-components';
+import dark from "../../styles/theme";
 
 const Banner = () => {
   return (
+    <Wrapper theme={{dark}}>
     <div className="banner text-white">
       <div className="container p-4 text-center">
         <img src={logo} alt="banner" />
@@ -13,6 +16,7 @@ const Banner = () => {
         </div>
       </div>
     </div>
+    </Wrapper>
   );
 };
 
