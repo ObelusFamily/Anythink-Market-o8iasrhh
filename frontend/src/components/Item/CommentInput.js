@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { ADD_COMMENT } from "../../constants/actionTypes";
 
 const mapDispatchToProps = (dispatch) => ({
@@ -51,4 +50,4 @@ function CommentInput ({currentUser}) {
   }
 
 
-export default connect(() => ({}), mapDispatchToProps)(CommentInput);
+export default CommentInput;
