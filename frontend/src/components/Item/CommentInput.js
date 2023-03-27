@@ -1,5 +1,4 @@
-import React from "react";
-import agent from "../../agent";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { ADD_COMMENT } from "../../constants/actionTypes";
 
@@ -7,45 +6,41 @@ const mapDispatchToProps = (dispatch) => ({
   onSubmit: (payload) => dispatch({ type: ADD_COMMENT, payload }),
 });
 
-class CommentInput extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      body: "",
-    };
+function CommentInput ({currentUser}) {
+  const [ body, setBody] = useState("")
 
-    this.setBody = (ev) => {
-      this.setState({ body: ev.target.value });
-    };
-
-    this.createComment = async (ev) => {
-      ev.preventDefault();
-      agent.Comments.create(this.props.slug, {
-        body: this.state.body,
+    function createComment(e) {
+      e.preventDefault();
+      const newBodyObj = {
+        body: body,
+      }
+      fetch(`/comments`,{
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(newBodyObj)
       }).then((payload) => {
-        this.props.onSubmit(payload);
-      });
-      this.setState({ body: "" });
-    };
-  }
+        mapDispatchToProps(payload);
+      })
+       setBody({ body: "" })
+    }
+  
 
-  render() {
     return (
-      <form className="card comment-form m-2" onSubmit={this.createComment}>
+      <form className="card comment-form m-2" onSubmit={createComment}>
         <div className="card-block">
           <textarea
             className="form-control"
             placeholder="Write a comment..."
-            value={this.state.body}
-            onChange={this.setBody}
+            value={body}
+            onChange={(e) =>{setBody(e.target.value)}}
             rows="3"
           ></textarea>
         </div>
         <div className="card-footer">
           <img
-            src={this.props.currentUser.image}
+            src={currentUser.image}
             className="user-pic mr-2"
-            alt={this.props.currentUser.username}
+            alt={currentUser.username}
           />
           <button className="btn btn-sm btn-primary" type="submit">
             Post Comment
@@ -54,6 +49,6 @@ class CommentInput extends React.Component {
       </form>
     );
   }
-}
+
 
 export default connect(() => ({}), mapDispatchToProps)(CommentInput);
