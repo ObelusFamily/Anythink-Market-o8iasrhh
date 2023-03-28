@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { ADD_COMMENT } from "../../constants/actionTypes";
 
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (payload) => dispatch({ type: ADD_COMMENT, payload }),
-});
 
 function CommentInput ({currentUser}) {
   const [ body, setBody] = useState("")
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit: (payload) => dispatch({ type: ADD_COMMENT, payload }),
+});
 
     function createComment(e) {
       e.preventDefault();
@@ -20,7 +21,7 @@ function CommentInput ({currentUser}) {
       }).then((payload) => {
         mapDispatchToProps(payload);
       })
-       setBody({ body: "" })
+       setBody("")
     }
   
 
