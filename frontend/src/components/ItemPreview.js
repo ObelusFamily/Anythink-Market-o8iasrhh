@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import agent from "../agent";
 import { connect } from "react-redux";
@@ -21,8 +21,6 @@ const mapDispatchToProps = (dispatch) => ({
 const ItemPreview = (props) => {
   const item = props.item;
 
-  const [imgError, setImgError] = useState(false)
-
   const handleClick = (ev) => {
     ev.preventDefault();
     if (item.favorited) {
@@ -40,10 +38,9 @@ const ItemPreview = (props) => {
     >
       <img
         alt="item"
-        src={imgError? placeholder : item.image}
+        src={item.image || placeholder}
         className="card-img-top item-img"
         style={{ borderRadius: "20px" }}
-        onError={() => setImgError(true)}
       />
       <div className="card-body">
         <Link to={`/item/${item.slug}`} className="text-white">
